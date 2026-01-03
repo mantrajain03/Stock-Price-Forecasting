@@ -47,3 +47,48 @@ stock_price_forecasting/
 │   └── evaluation.py   # Metric calculations (RMSE, MAPE, R2)
 ├── main.py             # Entry point for the full execution pipeline
 └── requirements.txt    # Dependency management
+```
+
+## 🚀 Quick Start
+1. Installation
+
+Clone the repository and install the required dependencies:
+```text
+git clone [https://github.com/YOUR_USERNAME/stock-price-forecasting.git](https://github.com/YOUR_USERNAME/stock-price-forecasting.git)
+cd stock-price-forecasting
+pip install -r requirements.txt
+```
+
+2. Running the Pipeline
+
+Execute the main script to download fresh data, train models, and generate the report:
+```text
+python main.py
+```
+
+3. Exploring the Data
+
+To view the Exploratory Data Analysis (EDA) or step-by-step logic, run the notebooks:
+```text
+jupyter notebook notebooks/01_eda_and_features.ipynb
+```
+
+## 🧠 Technical Implementation Details
+**Deep Learning (LSTM)**
+- Architecture: A sequential model consisting of two LSTM layers (50 units each) to capture temporal dependencies. Added Dropout (0.2) layers after each LSTM block to prevent overfitting.
+
+- Preprocessing: Data is normalized to the range [0, 1] using MinMaxScaler. Time-series sequences are generated with a sliding window of 60 days (lookback) to predict the next day's closing price.
+
+- Training Strategy: utilized the Adam optimizer with a learning rate of 0.001. Implemented Early Stopping (patience=5) to halt training automatically when validation loss stops improving.
+
+**Statistical (ARIMA)**
+- Stationarity Check: Implemented the Augmented Dickey-Fuller (ADF) test to check if the time series is stationary. If the p-value is > 0.05, differencing is applied automatically.
+
+- Parameter Tuning: Utilized auto_arima from the pmdarima library to perform a grid search for the optimal (p, d, q) parameters by minimizing the AIC (Akaike Information Criterion) score.
+
+## 📈 Future Improvements
+- Sentiment Analysis: Incorporate financial news sentiment (e.g., from FinBERT) as an exogenous variable to better predict price shocks.
+
+- Hyperparameter Tuning: Implement Keras Tuner to optimize LSTM units, dropout rates, and batch sizes dynamically.
+
+- Deployment: Serve the model via a REST API using FastAPI or Flask for real-time predictions.
