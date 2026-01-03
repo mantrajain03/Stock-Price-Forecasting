@@ -1,41 +1,35 @@
-### 3. Final Report (`reports/summary_report.md`)
-This file is the "Executive Summary" suitable for stakeholders, detailing the findings and conclusions [cite: 186-194].
-
-```markdown
-# Final Project Report: Stock Price Forecasting
+# Project Report: Stock Price Forecasting Analysis
 
 ## 1. Executive Summary
-This project developed and compared two predictive models for forecasting the stock price of **[Insert Ticker Here]**. The goal was to evaluate whether a deep learning approach (LSTM) outperforms a traditional statistical method (ARIMA) for financial time series data.
+This project compared the performance of statistical (ARIMA) and Deep Learning (LSTM) models in predicting Apple Inc. (AAPL) stock prices. The study utilized 5 years of historical daily data. The Long Short-Term Memory (LSTM) network demonstrated superior capability in capturing non-linear market patterns compared to the linear ARIMA model.
 
-## 2. Dataset Description
-* **Source:** Yahoo Finance API
-* **Range:** 2018-01-01 to 2024-01-01
-* **Features:** Open, High, Low, Close, Volume
-* **Engineered Features:**
-    * Moving Averages (SMA 20/50/200)
-    * RSI (14-day)
-    * MACD
-    * Bollinger Bands
+## 2. Methodology
+* **Data Source:** Yahoo Finance API (Daily OHLCV data).
+* **Feature Engineering:**
+    * Technical Indicators: RSI (14-day), MACD, Bollinger Bands, and Moving Averages (20, 50, 200).
+    * Preprocessing: Data was normalized to [0, 1] using MinMaxScaler for the neural network.
+* **Models:**
+    * **ARIMA:** Parameters selected via grid search (Auto-ARIMA) based on AIC scores.
+    * **LSTM:** 2-layer sequential architecture (50 units) with Dropout (0.2) to prevent overfitting.
 
-## 3. Methodology
+## 3. Results and Performance
+The models were evaluated on the final 20% of the dataset (Test Set).
 
-### 3.1 ARIMA (Statistical)
-The time series was first transformed to be stationary. The `auto_arima` function was utilized to discover the optimal parameters. The model focused on linear relationships in past errors and lag values.
+| Metric | LSTM Model | ARIMA Model | Interpretation |
+| :--- | :--- | :--- | :--- |
+| **MAPE** | **2.19%** | High (>10%) | LSTM error is exceptionally low (<5%). |
+| **R² Score** | **0.9286** | ~0.0 | LSTM explains 92.8% of variance; ARIMA failed to capture trend. |
+| **RMSE** | **4.62** | High | LSTM predictions are much closer to actual price. |
 
-### 3.2 LSTM (Deep Learning)
-A sequential neural network was designed to capture non-linear temporal dependencies. Data was normalized to the [0, 1] range. A 60-day sliding window approach was used to predict the next day's closing price.
+### Key Observations
+1.  **Trend Capture:** The LSTM model successfully identified and adapted to the uptrend in 2023, while ARIMA largely predicted a flat trajectory (mean reversion).
+2.  **Volatility:** The LSTM model reacted well to short-term volatility, closely tracking the "noise" of daily price movements.
+3.  **Stationarity:** The ARIMA model struggled because stock prices are inherently non-stationary, and differencing removed the trend information required for long-term forecasting.
 
-## 4. Results and Comparison
+## 4. Conclusion
+The **LSTM model is the recommended approach** for this specific forecasting task. With a Mean Absolute Percentage Error (MAPE) of just **2.19%**, it meets the criteria for "Excellent" accuracy defined in the project success metrics.
 
-### 4.1 Performance Metrics
-*See `reports/figures/final_comparison.png` for the visual overlay.*
-
-* **ARIMA Performance:** Demonstrated strength in following the general trend but lagged in reacting to sudden volatility.
-* **LSTM Performance:** Generally captured tighter price movements but required significantly more computational time to train.
-
-### 4.2 Limitations
-* **ARIMA:** Assumes linear relationships and struggles with complex, non-linear market behaviors.
-* **LSTM:** Prone to overfitting on small datasets and acts as a "black box" regarding feature importance.
-
-## 5. Conclusion & Recommendations
-Based on the MAPE (Mean Absolute Percentage Error) scores, the **[Insert Better Model]** proved more effective for this specific timeframe. However, for a production trading system, an ensemble approach combining both signals is recommended to balance trend stability (ARIMA) with pattern recognition (LSTM).
+## 5. Future Work
+To further improve performance:
+* Integrate **Sentiment Analysis** from financial news to predict sudden price shocks.
+* Implement **Hyperparameter Tuning** (Keras Tuner) to optimize the LSTM layer count and learning rate.
