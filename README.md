@@ -52,7 +52,7 @@ stock_price_forecasting/
 ## 🚀 Quick Start
 1. Installation
 
-Clone the repository and install the required dependencies:
+    Clone the repository and install the required dependencies:
 ```text
 git clone [https://github.com/YOUR_USERNAME/stock-price-forecasting.git](https://github.com/YOUR_USERNAME/stock-price-forecasting.git)
 cd stock-price-forecasting
@@ -61,14 +61,14 @@ pip install -r requirements.txt
 
 2. Running the Pipeline
 
-Execute the main script to download fresh data, train models, and generate the report:
+    Execute the main script to download fresh data, train models, and generate the report:
 ```text
 python main.py
 ```
 
 3. Exploring the Data
 
-To view the Exploratory Data Analysis (EDA) or step-by-step logic, run the notebooks:
+    To view the Exploratory Data Analysis (EDA) or step-by-step logic, run the notebooks:
 ```text
 jupyter notebook notebooks/01_eda_and_features.ipynb
 ```
